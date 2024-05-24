@@ -1,0 +1,17 @@
+<div class="toggle-container">
+    <div
+        class="pointer"
+        [ngClass]="{
+            'toggle-inactive': !active,
+            'toggle-active': active
+        }"
+        (click)="changeToggle()"
+    >
+        <div
+            [ngClass]="{
+                'toggle-circle-active': active,
+                'toggle-circle-inactive': !active
+            }"
+        ></div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<article class="card">
+	<section class="card__main">
+		<div class="card__main__title">
+			<div class="card__main__title__group">
+				<img class="card__main__img" [src]="IconImage" *ngIf="ShowIcon" />
+				<div class="card__main__title__group__text">{{ Title }}</div>
+			</div>
+		</div>
+		<div class="card__main__content">
+			<div class="card__main__content__group-1">
+				<div
+					class="card__main__content__device-common-section"
+					*ngIf="ShowTablet"
+				>
+					<img
+						class="card__main__img"
+						src="assets/img/cards/cards-v2/small_mobile_1x.webp"
+					/>
+					<div class="card__main__content__counter">{{ TabletCounter }}</div>
+				</div>
+				<div
+					class="card__main__content__group-1__device-special-section"
+					*ngIf="ShowTabletAdvantagePlan"
+				>
+					<p class="card__main__content__group-1__device-special-section__p">
+						<span
+							class="card__main__content__group-1__device-special-section__p__span"
+							>{{ AdvantagePlan }}:
+						</span>
+						<span
+							class="card__main__content__group-1__device-special-section__p__counter-special"
+							>{{ TabletAdvantagePlanCounter }}</span
+						>
+					</p>
+				</div>
+			</div>
+			<div class="card__main__content__group-2">
+				<div
+					class="card__main__content__device-common-section"
+					*ngIf="ShowFreePhone"
+				>
+					<img
+						class="card__main__content__icon-outline-device"
+						src="assets/img/cards/cards-v2/device-mobile.svg"
+					/>
+					<div class="card__main__content__counter card__main__content__counter--margin-fix">{{ FreePhoneCounter }}</div>
+				</div>
+				<div class="card__main__content__device-common-section" *ngIf="ShowSim">
+					<img
+						class="card__main__content__icon-outline-device"
+						src="assets/img/cards/cards-v2/small_sim_1x.webp"
+					/>
+					<div class="card__main__content__counter">{{ SimCounter }}</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</article>

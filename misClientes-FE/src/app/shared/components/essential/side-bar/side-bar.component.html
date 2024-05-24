@@ -1,0 +1,162 @@
+<div [ngClass]="{ opacity: modal_opened(), 'no-opacity': !modal_opened() }">
+	<div
+		#toggleSidebar
+		id="sidebar"
+		class="side-bar"
+		[ngClass]="{
+			toggle_active: active,
+			'agent-sidebar': rightbar_expanded
+		}"
+	>
+		<div class="logo-container">
+			<img
+				ngSrc="https://static.wixstatic.com/media/fc53d4_5c3b342813f14e7eb71f4b6429ea6c16%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/fc53d4_5c3b342813f14e7eb71f4b6429ea6c16%7Emv2.png"
+				class="logo pointer"
+				height="32"
+				width="32"
+				alt="logo"
+				[priority]="true"
+				[ngClass]="{ visible: !active, hidden: active }"
+			/>
+			<img
+				*ngIf="active"
+				ngSrc="assets/img/login/GM-LOGO.jpg"
+				alt="logo2"
+				width="405"
+				height="90"
+				class="logo2 pointer"
+				[priority]="true"
+				[ngClass]="{ visible: active, hidden: !active }"
+			/>
+		</div>
+
+		<div class="nav2">
+			<!-- OPTIONS -->
+			<ng-container *ngIf="!loading">
+				<nav
+					class="nav blinks-principal"
+					[ngClass]="{ 'open-nav': active }"
+					*ngFor="let item of items(); let i = index"
+				>
+					<!-- If didnt contains blinks -->
+					<a
+						(click)="checkLink(item.link)"
+						[ngClass]="{
+							active_page: url() === item.link,
+							pointer: !modal_opened()
+						}"
+						class="options pointer"
+						*ngIf="item.visible && item.type === 'normal'"
+					>
+						<div class="ml-5" [ngClass]="{ 'open-ml-5': active }">
+							<img
+								ngSrc="{{ item.icon }}"
+								width="24"
+								height="24"
+								class="icons"
+								alt="icon"
+								[ngClass]="{ icon2: item.title === 'Dependent Messages' }"
+								[priority]="true"
+							/>
+							<p class="close-nav ml-20" [ngClass]="{ 'open-nav-txt': active }">
+								{{ item.title }}
+							</p>
+						</div>
+					</a>
+
+					<!--          If has blinks-->
+					<a
+						(click)="openBlink(i)"
+						*ngIf="item.visible && item.type === 'dropdown'"
+					>
+						<div class="ml-5" [ngClass]="{ 'open-ml-5': active }">
+							<img
+								ngSrc="{{ item.icon }}"
+								width="24"
+								height="24"
+								class="icons"
+								alt="icon"
+								[ngClass]="{ icon2: item.title === 'Dependent Messages' }"
+								[priority]="true"
+							/>
+							<p class="close-nav ml-20" [ngClass]="{ 'open-nav-txt': active }">
+								{{ item.title }}
+							</p>
+							<img
+								class="chevron-down"
+								[ngClass]="{ 'chevron-down__active': item.children_opened }"
+								ngSrc="assets/img/sidebar/cheveron-down.svg"
+								alt="chevron-down"
+								width="24"
+								height="24"
+								*ngIf="active"
+							/>
+						</div>
+					</a>
+					<div
+						[ngClass]="{ blinks: item.children_opened && active }"
+						*ngIf="item.children && item.children_opened && active"
+						@onOff
+					>
+						<ng-container *ngFor="let site of item.children">
+							<div class="ml-5 blink-option" *ngIf="site.visible">
+								<a
+									[routerLink]="[site.link]"
+									class="ml-20 subtitle"
+									id="x"
+									[ngClass]="{
+										blink_active: url() === site.link,
+										blink_inactive: url() !== site.link
+									}"
+									>{{ site.title }}</a
+								>
+							</div>
+						</ng-container>
+					</div>
+				</nav>
+			</ng-container>
+
+			<!-- SKELETON -->
+			<ng-container *ngIf="loading">
+				<nav
+					class="nav"
+					[ngClass]="{ 'open-nav': active }"
+					*ngFor="let item of [1, 2, 3, 4, 5]"
+				>
+					<div class="options">
+						<div class="option-skeleton ml-5"></div>
+					</div>
+				</nav>
+			</ng-container>
+		</div>
+
+		<div
+			class="toggle-container"
+			[ngClass]="{ pointer: !modal_opened() }"
+			*ngIf="!loading"
+		>
+			<div class="toggle-cont">
+				<a
+					(click)="openSideBar(true)"
+					[ngClass]="{ class: active, 'display-block': active }"
+				>
+					<img
+						ngSrc="assets/img/sidebar/toggle.svg"
+						alt="toggle"
+						class="toggle"
+						width="16"
+						height="16"
+						[ngClass]="{ toggle_btn_active: active }"
+					/>
+					<p
+						class="toggle-text"
+						[ngClass]="{ 'toggle-stick': this.sidebar_stick }"
+						*ngIf="active"
+					>
+						Toggle Sidebar
+					</p>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

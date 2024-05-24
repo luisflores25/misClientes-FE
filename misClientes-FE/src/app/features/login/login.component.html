@@ -1,0 +1,78 @@
+<div class="body">
+	<div class="body__container">
+		<div class="body__container--left-content">
+			<img
+				ngSrc="https://static.wixstatic.com/media/fc53d4_5c3b342813f14e7eb71f4b6429ea6c16%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/fc53d4_5c3b342813f14e7eb71f4b6429ea6c16%7Emv2.png"
+				alt="logo"
+				width="36"
+				height="36"
+			/>
+
+			<div class="body__container--left-content__general-container">
+				<h1 class="title">Welcome back!</h1>
+				<p class="paragraph">Log in to your account</p>
+
+				<div
+					class="body__container--left-content__general-container--error-box-container"
+					*ngIf="login_error()"
+				>
+					<p class="error-box-txt">
+						The email or password you entered is incorrect.
+					</p>
+				</div>
+
+				<form #form="ngForm" (ngSubmit)="handleLogin(form)">
+					<div class="form-component form-component-first">
+						<label id="email" for="email" class="label"> Email Address or Username </label>
+						<input
+							(focus)="focusPassword()"
+							name="username"
+							type="text"
+							class="input"
+							ngModel
+						/>
+						<label class="hidden">The email you entered is incorrect.</label>
+					</div>
+
+					<div class="form-component mt-5">
+						<label id="password" for="password" class="label"> Password </label>
+						<input
+							(focus)="focusPassword()"
+							name="password"
+							type="password"
+							class="input"
+							ngModel
+						/>
+						<label class="hidden">The password you entered is incorrect.</label>
+					</div>
+
+					<div class="button-container">
+						<!--						<button type="submit" class="next-prev-btn">Log In</button>-->
+						<sh-button type="submit" size="full" [loading]="button_loading()"
+							>Log In
+						</sh-button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="body__background-image-container">
+		<div class="body__background-image-container--cards-login">
+			
+		</div>
+
+		<div class="body__background-image-container--cards-login">
+			
+
+			
+		</div>
+
+		<div class="body__background-image-container--cards-login">
+			
+		</div>
+	</div>
+</div>
+<sh-success-message [success_msg]="show_msg()" [error_msg]="error_msg()">{{
+	msg()
+}}</sh-success-message>

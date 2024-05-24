@@ -1,0 +1,14 @@
+<div class="display-flex">
+	<p [class]="style" [ngClass]="{ bold: Bold }">
+		<label>{{ Label }}</label>
+		<img
+			ngSrc="assets/img/chips/x.svg"
+			class="pointer x-btn"
+			alt="x"
+			width="24"
+			height="24"
+			*ngIf="Close"
+			(click)="close_function()"
+		/>
+	</p>
+</div>

@@ -1,0 +1,23 @@
+<button
+	[type]="type"
+	(click)="onClick()"
+	[ngClass]="
+		icon === 'only'
+			? 'sh-btn-' + variant + ' sh-btn-icononly-' + size
+			: 'sh-btn-' + variant + ' sh-btn-' + size
+	"
+	[disabled]="disabled || loading"
+>
+	<ng-container *ngIf="!loading">
+		<img *ngIf="icon == 'left' || icon == 'only'" [src]="icon_src" />
+		<ng-content *ngIf="icon != 'only'"></ng-content>
+		<p *ngIf="icon != 'only' && text != ''">{{ text }}</p>
+		<img *ngIf="icon == 'right'" [src]="icon_src" />
+		<ng-content></ng-content>
+	</ng-container>
+	<ng-container *ngIf="loading">
+		<sh-loader
+			[Color]="variant.includes('outline') ? '#92929b' : '#fff'"
+		></sh-loader>
+	</ng-container>
+</button>

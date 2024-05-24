@@ -1,0 +1,63 @@
+<div class="card-container">
+	<div class="refresh-container" *ngIf="!Customize">
+		<!--		<img-->
+		<!--			(click)="refresh_content()"-->
+		<!--			ngSrc="assets/img/cards/refresh-icn.svg"-->
+		<!--			width="16"-->
+		<!--			height="17"-->
+		<!--			class="refresh-icn pointer"-->
+		<!--			alt="refresh"-->
+		<!--		/>-->
+	</div>
+	<div class="content">
+		<!-- If is receiving info -->
+		<ng-container *ngIf="Info && !Loading">
+			<div class="card-info" *ngIf="!Errors">
+				<p class="title" *ngIf="Info.title && !Loading">
+					{{ Info!.title }}
+				</p>
+				<!--				<div class="no-info" *ngIf="Loading">-->
+				<!--					<div class="skeleton"></div>-->
+				<!--				</div>-->
+				<p class="quantity" *ngIf="Info?.quantity && !Loading">
+					{{ Info!.quantity }}
+				</p>
+				<!--				<p-->
+				<!--					class="quantity"-->
+				<!--					*ngIf="(!Info.quantity || Loading) && !Errors && !NoData"-->
+				<!--				>-->
+				<!--					&#45;&#45;-->
+				<!--				</p>-->
+			</div>
+			<img
+				*ngIf="Info.icon && !Loading && !Errors"
+				src="{{ Info!.icon }}"
+				class="icon"
+			/>
+		</ng-container>
+		<div *ngIf="Loading" class="circle">
+			<div class="skeleton"></div>
+		</div>
+		<div *ngIf="Loading" class="title-skeleton">
+			<div class="skeleton"></div>
+		</div>
+		<div *ngIf="Errors" class="Errors_container">
+			<div class="error-text">
+				<div class="error-title">Oops!</div>
+				<div class="error-description">Please try again.</div>
+			</div>
+			<div class="error_image_container">
+				<img
+					src="../../assets/img/cards/error_icon.svg"
+					alt="error"
+					class="icon-error"
+				/>
+			</div>
+		</div>
+	</div>
+
+	<p class="title no-widget" *ngIf="NoData">
+		No Widget <br />
+		<label class="instructions">(For add a widget, click on Customize)</label>
+	</p>
+</div>

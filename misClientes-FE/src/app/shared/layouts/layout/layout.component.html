@@ -1,0 +1,25 @@
+<ng-container *ngIf="loaded_data()">
+	<sh-header></sh-header>
+	<sh-side-bar
+		(ToggleSideBar)="sidebarExpanded($event)"
+		(LoadedFinish)="checkFirstUrl($event)"
+		(click)="closeHeaderActions()"
+	></sh-side-bar>
+	<div
+		class="router-content"
+		[ngClass]="{ 'side-bar-expanded': sidebar_open() }"
+		(click)="closeSidebar()"
+	>
+		<div class="content">
+			<router-outlet></router-outlet>
+		</div>
+
+		<sh-success-message
+			[success_msg]="success_message_show()"
+			[error_msg]="success_message_error()"
+		>
+			{{ success_message_msg() }}
+		</sh-success-message>
+	</div>
+</ng-container>
+

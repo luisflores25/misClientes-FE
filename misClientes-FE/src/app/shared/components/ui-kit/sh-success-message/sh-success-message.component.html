@@ -1,0 +1,38 @@
+<!-- Success msg -->
+<div
+	class="success-msg"
+	*ngIf="success_msg"
+	[ngClass]="{ 'error-msg': error_msg }"
+	@succcess_msg
+>
+	<div class="left-success-msg-content">
+		<img
+			ngSrc="assets/img/success-msg/check.svg"
+			width="24"
+			height="24"
+			*ngIf="!error_msg"
+			class="check-icon-success-msg"
+			alt="check"
+		/>
+		<img
+			ngSrc="assets/img/success-msg/x.svg"
+			width="24"
+			height="24"
+			*ngIf="error_msg"
+			class="x-icon-error-msg"
+			alt="x"
+		/>
+		<p class="succes-msg-txt">
+			<ng-content></ng-content>
+		</p>
+	</div>
+	<img
+		ngSrc="assets/img/success-msg/x.svg"
+		width="24"
+		height="24"
+		(click)="close_success_msg()"
+		class="x-icon-success-msg pointer"
+		[ngClass]="{ 'x-icon-error-msg': error_msg }"
+		alt="x"
+	/>
+</div>

@@ -1,0 +1,253 @@
+button {
+	display: flex;
+	gap: 0.75rem;
+	border: 1px solid;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	color: white;
+	cursor: pointer;
+}
+
+img {
+	width: 1rem;
+}
+
+.sh-btn-sm {
+	min-width: 6rem;
+	height: 2rem;
+	font-size: 0.875rem;
+	gap: 0.7rem;
+	padding: 1px 1.5rem;
+	transition: all 300ms;
+}
+
+.sh-btn-md {
+	min-width: 7.25rem;
+	height: 2.5rem;
+	font-size: 1rem;
+	transition: all 300ms;
+}
+
+.sh-btn-lg {
+	min-width: 9rem;
+	height: 3rem;
+	font-size: 1.125rem;
+	transition: all 300ms;
+}
+
+.sh-btn-full {
+	width: 100%;
+	height: 40px;
+	font-size: 16px;
+	transition: all 300ms;
+}
+
+.sh-btn-icononly-sm {
+	min-width: 2rem;
+	height: 2rem;
+	transition: all 300ms;
+}
+
+.sh-btn-icononly-md {
+	min-width: 2.5rem;
+	height: 2.5rem;
+}
+
+.sh-btn-icononly-lg {
+	min-width: 3rem;
+	height: 3rem;
+}
+
+.sh-btn-filled {
+	border-color: #FF8000;
+	background-color: #ff8000e5;
+	white-space: nowrap;
+	transition: all 300ms;
+}
+
+.sh-btn-filled:hover {
+	border-color: #ff8000aa;
+	background-color: #ff8000aa;
+	transition: all 300ms;
+}
+
+.sh-btn-filled:hover:active {
+	border-color: #323273;
+	background-color: #323273;
+	transition: all 300ms;
+}
+
+.sh-btn-filled:disabled {
+	pointer-events: none;
+	border-color: #d8d8dc;
+	background-color: #d8d8dc;
+	color: #92929b;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(66%) sepia(13%) saturate(171%)
+			hue-rotate(202deg) brightness(87%) contrast(85%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-outline {
+	border-color: #515192;
+	background-color: transparent;
+	color: #515192;
+	white-space: nowrap;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(33%) sepia(7%) saturate(3652%)
+			hue-rotate(202deg) brightness(94%) contrast(90%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-outline:hover {
+	border-color: #8e8ecf;
+	background-color: #8e8ecf;
+	color: white;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(4%)
+			hue-rotate(59deg) brightness(106%) contrast(100%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-outline:hover:active {
+	border-color: #323273;
+	background-color: transparent;
+	color: #323273;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(15%) sepia(62%) saturate(1543%)
+			hue-rotate(220deg) brightness(99%) contrast(91%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-outline:disabled {
+	pointer-events: none;
+	border-color: #d8d8dc;
+	background-color: transparent;
+	color: #d8d8dc;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(97%) sepia(1%) saturate(432%)
+			hue-rotate(202deg) brightness(89%) contrast(94%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-invisible {
+	border-color: transparent;
+	background-color: transparent;
+	color: #515192;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(33%) sepia(7%) saturate(3652%)
+			hue-rotate(202deg) brightness(94%) contrast(90%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-invisible:hover {
+	border-color: transparent;
+	background-color: transparent;
+	color: #8e8ecf;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(62%) sepia(54%) saturate(305%)
+			hue-rotate(202deg) brightness(84%) contrast(91%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-invisible:hover:active {
+	border-color: transparent;
+	background-color: #dedef8;
+	color: #323273;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(15%) sepia(62%) saturate(1543%)
+			hue-rotate(220deg) brightness(99%) contrast(91%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-invisible:disabled {
+	pointer-events: none;
+	border-color: transparent;
+	background-color: transparent;
+	color: #d8d8dc;
+
+	img {
+		filter: brightness(0) saturate(100%) invert(97%) sepia(1%) saturate(432%)
+			hue-rotate(202deg) brightness(89%) contrast(94%);
+	}
+
+	transition: all 300ms;
+}
+
+.sh-btn-borderless-primary {
+	border-color: transparent;
+	background-color: transparent;
+	color: #515192;
+	transition: all 300ms;
+}
+
+.sh-btn-light {
+	border-color: #8e8ecf;
+	background-color: #8e8ecf;
+	transition: all 300ms;
+}
+
+.sh-borderless-light {
+	border-color: transparent;
+	background-color: transparent;
+	color: #8e8ecf;
+	transition: all 300ms;
+}
+
+.sh-btn-outline-dark {
+	border-color: #323273;
+	background-color: transparent;
+	color: #323273;
+	transition: all 300ms;
+}
+
+.sh-btn-outline-warning {
+	border: 2px solid;
+	border-color: #ffd25e;
+	background-color: transparent;
+	color: #515192;
+	transition: all 300ms;
+}
+
+.sh-btn-outline-secondary {
+	border-color: #d8d8dc;
+	background-color: transparent;
+	color: #92929b;
+	transition: all 300ms;
+}
+
+.sh-btn-borderless-secondary {
+	border-color: transparent;
+	background-color: transparent;
+	color: #92929b;
+	transition: all 300ms;
+}
+
+.content {
+	white-space: nowrap;
+}

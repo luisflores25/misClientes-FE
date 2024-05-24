@@ -1,0 +1,1088 @@
+<div class="table">
+	<!--  Header-->
+	<div
+		class="table__header"
+		(click)="closeFilter()"
+		[ngStyle]="{
+			'align-items': Filter_Preset ? 'flex-end' : 'center'
+		}"
+	>
+		<!--    Title and count-->
+		<div class="table__header--title">
+			<h4 class="table__header--title__title" *ngIf="!Loading">
+				{{ Title }}
+			</h4>
+			<div
+				class="table__header--title__title-skeleton"
+				*ngIf="Loading || Pagination_Loading"
+			>
+				<div class="skeleton"></div>
+			</div>
+			<span
+				class="table__header--title__total-count"
+				*ngIf="!Loading && !Pagination_Loading"
+			>
+				{{ Total_Count }}
+			</span>
+			<div class="table__header--title__total-count-skeleton" *ngIf="Loading">
+				<div class="skeleton"></div>
+			</div>
+
+			<!--      Filter Preset-->
+			<form
+				class="table__header--filters-preset"
+				#form="ngForm"
+				*ngIf="Filter_Preset"
+			>
+				<div
+					class="table__header--filters-preset__select"
+					[ngClass]="{
+						'select-disabled': Pagination_Loading || Loading
+					}"
+				>
+					<select
+						[ngModel]="Default_Filter"
+						(ngModelChange)="changeFiltersSelect($event)"
+						name="filters-preset"
+						[disabled]="Loading"
+					>
+						<option value="" selected>All</option>
+						<option *ngFor="let filter of Columns.filters" [value]="filter.id">
+							{{ filter.name }}
+						</option>
+					</select>
+				</div>
+
+				<sh-button
+					[disabled]="!filter_value()"
+					(btnClick)="clearFiltersSelect()"
+					type="submit"
+					class="table__header--filters-preset__button"
+				>
+					Clear
+				</sh-button>
+			</form>
+		</div>
+		<!--    Filters and search-->
+		<div class="table__header--filters" *ngIf="!Loading && Filter.active">
+			<div class="table__header--filters__icons">
+				<!--				&lt;!&ndash; 		File icon&ndash;&gt;-->
+				<!--				<img-->
+				<!--					ngSrc="../../../../../assets/img/tables/document-text.svg"-->
+				<!--					alt="filter-icon"-->
+				<!--					width="24"-->
+				<!--					height="24"-->
+				<!--					class="pointer file-icon"-->
+				<!--					(click)="actions()"-->
+				<!--				/>-->
+				<!--				&lt;!&ndash;        Filter icon&ndash;&gt;-->
+				<!--				<img-->
+				<!--					ngSrc="../../../../../assets/img/tables/filter.svg"-->
+				<!--					alt="filter-icon"-->
+				<!--					width="24"-->
+				<!--					height="24"-->
+				<!--					class="pointer"-->
+				<!--					(click)="showFiltersSelect()"-->
+				<!--				/>-->
+				<!--        Refresh icon-->
+				<img
+					class="refresh-icon pointer"
+					ngSrc="../../../../../assets/img/tables/refresh-icn.svg"
+					alt="refresh-icon"
+					width="24"
+					height="24"
+					(click)="refreshEmit()"
+				/>
+			</div>
+
+			<!-- COLUMNS -->
+			<div class="table__header--filters__show_columns" *ngIf="showColumns">
+				<div class="table__header--filters__show_columns--form_columns">
+					<div class="options" *ngFor="let action of actions_array">
+						<div class="column_mobile" (click)="actions()">
+							<p class="show_columns_mobile_txt">{{ action }}</p>
+							<img
+								class="filter-icon show-columns-buton"
+								ngSrc="assets/img/tables/document-text.svg"
+								width="24"
+								height="24"
+								alt="document"
+							/>
+						</div>
+					</div>
+				</div>
+				<div
+					class="table__header--filters__show_columns--button_columns_container"
+				>
+					<button class="done_btn" type="button" (click)="actions()">
+						<span>Close</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- GENERAL FILTER -->
+			<form
+				(ngSubmit)="filtersForm(formData.value)"
+				#formData="ngForm"
+				[formGroup]="filters_form"
+				class="table__header--filters__show_filters"
+				*ngIf="showFilters"
+			>
+				<div class="table__header--filters__show_filters--top_filters">
+					<div
+						class="table__header--filters__show_filters--top_filters__top_filters_left"
+					>
+						<p class="top_filters_txt">Add filters</p>
+					</div>
+					<div
+						class="table__header--filters__show_filters--top_filters__top_filters_right"
+					>
+						<img
+							(click)="showFiltersSelect()"
+							ngSrc="../../../../../assets/img/chips/x.svg"
+							alt=""
+							class="x_icn pointer"
+							height="24"
+							width="24"
+						/>
+					</div>
+				</div>
+
+				<div class="table__header--filters__show_filters--form_columns">
+					<!-- Date range -->
+					<ng-container *ngIf="Filter.options.date_range?.active">
+						<div
+							class="table__header--filters__show_filters--form_columns__filter_select"
+						>
+							<label class="filter_label">Date Range</label>
+							<select formControlName="date_range">
+								<option value="" disabled selected>--Select--</option>
+								<option
+									[value]="opt.name"
+									*ngFor="let opt of Filter.options.date_range?.options"
+								>
+									{{ opt.label }}
+								</option>
+							</select>
+						</div>
+					</ng-container>
+
+					<!-- Status -->
+					<ng-container *ngIf="Filter.options.status?.active">
+						<div
+							class="table__header--filters__show_filters--form_columns__filter_select"
+						>
+							<label
+								class="table__header--filters__show_filters--form_columns__filter_label"
+								>Status</label
+							>
+							<select formControlName="status">
+								<option value="" disabled selected>--Select--</option>
+								<option
+									[value]="opt.name"
+									*ngFor="let opt of Filter.options.status?.options"
+								>
+									{{ opt.label }}
+								</option>
+							</select>
+						</div>
+					</ng-container>
+
+					<!-- From To -->
+					<ng-container
+						*ngIf="
+							Filter.options.date_from?.active || Filter.options.date_to?.active
+						"
+					>
+						<div
+							class="table__header--filters__show_filters--form_columns__from_to_container"
+						>
+							<ng-container *ngIf="Filter.options.date_from?.active">
+								<div
+									class="table__header--filters__show_filters--form_columns__from_to"
+								>
+									<label
+										class="table__header--filters__show_filters--form_columns__filter_label"
+										>From:
+									</label>
+									<input type="date" formControlName="from" />
+								</div>
+							</ng-container>
+
+							<ng-container *ngIf="Filter.options.date_to?.active">
+								<div class="from_to">
+									<label
+										class="table__header--filters__show_filters--form_columns__filter_label"
+										>To:
+									</label>
+									<input type="date" formControlName="to" />
+								</div>
+							</ng-container>
+						</div>
+					</ng-container>
+				</div>
+				<div class="table__header--filters__button_columns_container">
+					<button
+						(click)="showFiltersSelect()"
+						class="table__header--filters__button_columns_container--cancel_btn"
+					>
+						<span>Cancel</span>
+					</button>
+					<button
+						class="table__header--filters__button_columns_container--done_btn"
+						type="submit"
+					>
+						<span>Done</span>
+					</button>
+					X
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!--  Active filters-->
+	<div class="table__header--active-filters" *ngIf="active_filters().length">
+		<sh-button variant="outline" (btnClick)="clearAllFilters()">
+			Clear
+		</sh-button>
+		<sh-chips
+			class="table__header--active-filters__chip"
+			[Close]="true"
+			[Colors]="'purple'"
+			[Label]="filter.label + ': ' + filter.value"
+			(CloseEvent)="deleteSingleFilter(filter, i)"
+			*ngFor="let filter of active_filters(); let i = index"
+		></sh-chips>
+	</div>
+
+	<!--  Table-->
+	<div class="table__container" id="table">
+		<table class="table__table">
+			<!--      Table head-->
+			<thead class="table__table--head">
+				<tr class="table__table--head__row">
+					<!--          Loaded-->
+					<ng-container *ngIf="!Loading">
+						<th
+							[ngClass]="{
+								'table__table--head__column-hide': column.id === '_differences'
+							}"
+							class="table__table--head__column"
+							*ngFor="let column of Columns.columns; let i = index"
+							[id]="column.id"
+							(keyup.enter)="filtersApply(column, i)"
+							tabindex="0"
+						>
+							<span
+								class="table__table--head__column--label"
+								(click)="setFilterPopupToShow(column, $event)"
+							>
+								{{ column.name_pretty }}
+								<img
+									class="order pointer"
+									ngSrc="../../../../../assets/img/tables/order.svg"
+									alt=""
+									height="11"
+									width="5"
+									*ngIf="
+										checkSearchable(column.type) || checkSortable(column.type)
+									"
+								/>
+							</span>
+							<!-- 		Column Filter -->
+							<ng-container
+								*ngIf="
+									checkSearchable(column.type) || checkSortable(column.type)
+								"
+							>
+								<div
+									*ngIf="column.show_filter"
+									class="table__table--head__column--filter-box"
+									[ngClass]="{
+										'table__table--head__column--filter-box__last':
+											i === Columns.columns.length - 1
+									}"
+								>
+									<div class="mt-20">
+										<!-- Sort ASC -->
+										<div
+											*ngIf="checkSortable(column.type)"
+											class="table__table--head__column--filter-box__sort_content pointer"
+											(click)="turnSort(column, 'ascending')"
+											[ngClass]="{
+												'table__table--head__column--filter-box__sort_content-active':
+													column.filters['ascending']
+											}"
+										>
+											<img
+												ngSrc="../../../../../assets/img/tables/SortingAZ.svg"
+												alt=""
+												height="25"
+												width="25"
+											/>
+											<p>Sort Ascending</p>
+										</div>
+
+										<!-- Sort DESC -->
+										<div
+											*ngIf="checkSortable(column.type)"
+											class="table__table--head__column--filter-box__sort_content pointer"
+											(click)="turnSort(column, 'descending')"
+											[ngClass]="{
+												'table__table--head__column--filter-box__sort_content-active':
+													column.filters['descending']
+											}"
+										>
+											<img
+												ngSrc="../../../../../assets/img/tables/SortingZA.svg"
+												alt=""
+												height="26"
+												width="25"
+											/>
+											<p>Sort Descending</p>
+										</div>
+
+										<!-- Search No Enum -->
+										<div
+											*ngIf="
+												(checkSearchable(column.type) &&
+													column.type !== 'enum' &&
+													column.type !== 'boolean') ||
+												column.id === 'role'
+											"
+											class="table__table--head__column--filter-box__search-input mt-12"
+											[ngClass]="{
+												'table__table--head__column--filter-box__search-input--disabled':
+													column.filters['blank'] || column.filters['not_blank']
+											}"
+										>
+											<div class="search-icon">
+												<img
+													ngSrc="../../../../../assets/img/tables/search-icon.svg"
+													alt=""
+													height="20"
+													width="20"
+												/>
+											</div>
+											<input
+												[readonly]="
+													column.filters['blank'] || column.filters['not_blank']
+												"
+												type="search"
+												placeholder="Search"
+												[(ngModel)]="column.filters['search']"
+											/>
+										</div>
+
+										<!-- Search Boolean -->
+										<div
+											*ngIf="
+												checkSearchable(column.type) &&
+												column.type === 'boolean'
+											"
+											class="mt-12"
+										>
+											<select
+												class="table__table--head__column--filter-box__search-input--select"
+												[(ngModel)]="column.filters['search']"
+											>
+												<option value="true">Yes</option>
+												<option value="false">No</option>
+											</select>
+										</div>
+
+										<!-- Search Enum-->
+										<div
+											*ngIf="
+												checkSearchable(column.type) &&
+												column.type === 'enum' &&
+												column.id !== 'role'
+											"
+											class="mt-12"
+										>
+											<select
+												class="table__table--head__column--filter-box__search-input--select"
+												[(ngModel)]="column.filters['search']"
+												[disabled]="
+													column.filters['blank'] || column.filters['not_blank']
+												"
+											>
+												<option
+													*ngFor="let option of column.values"
+													[value]="option.value"
+												>
+													{{ option.name }}
+												</option>
+											</select>
+										</div>
+
+										<!-- Date range-->
+										<div *ngIf="column.type === 'timestamp'">
+											<div
+												class="table__table--head__column--filter-box__from-to-container"
+											>
+												<div
+													class="table__table--head__column--filter-box__from-to-container__sort_content"
+												>
+													<p>From</p>
+												</div>
+												<input
+													[readonly]="
+														column.filters['blank'] ||
+														column.filters['not_blank']
+													"
+													type="date"
+													[(ngModel)]="column.filters['start']"
+												/>
+											</div>
+
+											<div
+												class="table__table--head__column--filter-box__from-to-container"
+											>
+												<div
+													class="table__table--head__column--filter-box__from-to-container__sort_content"
+												>
+													<p>To</p>
+												</div>
+												<input
+													[readonly]="
+														column.filters['blank'] ||
+														column.filters['not_blank']
+													"
+													type="date"
+													[(ngModel)]="column.filters['end']"
+												/>
+											</div>
+										</div>
+
+										<!-- Specific Date-->
+										<div *ngIf="column.type === 'date' && Date_Search">
+											<div
+												class="table__table--head__column--filter-box__from-to-container"
+											>
+												<div
+													class="table__table--head__column--filter-box__from-to-container__sort_content"
+												>
+													<p>Date</p>
+												</div>
+												<input
+													[readonly]="
+														column.filters['blank'] ||
+														column.filters['not_blank']
+													"
+													type="date"
+													[(ngModel)]="column.filters['search']"
+												/>
+											</div>
+										</div>
+
+										<!-- Blank-->
+										<label
+											class="table__table--head__column--filter-box__blank"
+											*ngIf="
+												checkSearchable(column.type) ||
+												column.type === 'timestamp'
+											"
+										>
+											<div
+												class="table__table--head__column--filter-box__from-to-container__sort_content"
+											>
+												<p>Is blank</p>
+											</div>
+											<input
+												type="checkbox"
+												[(ngModel)]="column.filters['blank']"
+												(ngModelChange)="blankActive(column)"
+											/>
+										</label>
+
+										<!--Not  Blank-->
+										<label
+											class="table__table--head__column--filter-box__blank"
+											*ngIf="
+												checkSearchable(column.type) ||
+												column.type === 'timestamp'
+											"
+										>
+											<div
+												class="table__table--head__column--filter-box__from-to-container__sort_content"
+											>
+												<p>Is not blank</p>
+											</div>
+											<input
+												type="checkbox"
+												[(ngModel)]="column.filters['not_blank']"
+												(ngModelChange)="notBlankActive(column)"
+											/>
+										</label>
+
+										<!-- Exact -->
+										<label
+											class="table__table--head__column--filter-box__blank"
+											*ngIf="column.type === 'string' && !['email','order_id'].includes(column.id)"
+										>
+											<div
+												class="table__table--head__column--filter-box__from-to-container__sort_content"
+											>
+												<p>Is exact</p>
+											</div>
+											<input
+												type="checkbox"
+												[(ngModel)]="column.filters['is_exact']"
+												(ngModelChange)="exactActive(column)"
+											/>
+										</label>
+
+										<!-- END -->
+										<div class="filter_options">
+											<div
+												class="filter_options_container"
+												*ngFor="let option of column.possible_values_array"
+											>
+												<label style="display: flex">
+													<input
+														type="checkbox"
+														[(ngModel)]="column.filters['end']"
+													/>
+													<sh-chips [Label]="option"></sh-chips>
+												</label>
+											</div>
+										</div>
+
+										<!--                    Buttons-->
+										<div class="filter-buttons-container">
+											<div
+												class="clear-filter-button pointer"
+												(click)="clearColumnFilters(column)"
+											>
+												<p>Clear</p>
+											</div>
+											<div
+												class="apply-filter-button pointer"
+												(click)="filtersApply(column, i)"
+											>
+												<p>Apply</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</th>
+					</ng-container>
+					<!--          Loading-->
+					<ng-container *ngIf="Loading">
+						<th
+							class="table__table--head__column loading-header"
+							*ngFor="let column of [1, 2, 3, 4, 5, 6, 7, 8]"
+						>
+							<span class="table__table--head__column--label"> -- </span>
+						</th>
+					</ng-container>
+				</tr>
+			</thead>
+
+			<!--      Table content-->
+			<tbody class="table__table--body" (click)="closeFilter()">
+				<!--      Loading-->
+				<ng-container *ngIf="Loading">
+					<tr
+						*ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"
+						class="table__table--body__row"
+					>
+						<td
+							*ngFor="let column of [1, 2, 3, 4, 5, 6, 7, 8]"
+							class="table__table--body__row--cell"
+						>
+							<span class="table__table--body__row--cell__label loading-label">
+								<div class="table__table--body__row--cell__label--skeleton">
+									<div class="skeleton"></div>
+								</div>
+							</span>
+						</td>
+					</tr>
+				</ng-container>
+				<!--  Loaded and with data-->
+				<ng-container *ngIf="!Loading && Content.length">
+					<tr
+						*ngFor="let item of Content; index as i"
+						class="table__table--body__row"
+					>
+						<td
+							*ngFor="let column of Columns.columns"
+							[ngClass]="{
+								'table__table--body__row--cell-hide':
+									column.id === '_differences',
+								'table__table--body__row--cell-modified':
+									Is_History && cellHasBeenModified(item.id, column.id)
+							}"
+							class="table__table--body__row--cell"
+							(click)="clickTable(column.id + '_' + i.toString())"
+						>
+							<ng-container *ngIf="!item.row_loading">
+								<!--              User-->
+								<ng-container *ngIf="column.type === 'user'">
+									<ng-content></ng-content>
+									<span
+										class="table__table--body__row--cell__label"
+										*ngIf="item[column.id]"
+									>
+										{{ item[column.id].full_name || "--" }}
+									</span>
+								</ng-container>
+
+								<!--						String / Input-->
+								<ng-container *ngIf="column.type === 'string'">
+									<!--              Show the value if it isn't active the edit-->
+									<span
+										[ngClass]="{
+											'editable pointer': column.is_editable,
+											'table__table--body__row--cell__large-column':
+												column.id === 'retry_process_response' ||
+												column.id === 'notes',
+											'pointer retry-process':
+												column.id === 'retry_process_response'
+										}"
+										class="table__table--body__row--cell__label"
+										*ngIf="!item[column.id]?.active && column.id !== 'role'"
+										(click)="editValue(i, column.id, column.is_editable, item)"
+									>
+										<img
+											ngSrc="assets/img/tables/plus.svg"
+											alt="plus"
+											width="24"
+											height="24"
+											*ngIf="
+												column.id === 'retry_process_response' && item.short
+											"
+											class="table__table--body__row--cell__label--icon"
+											(click)="
+												rowExpand(i, column.id, column.is_editable, item)
+											"
+										/>
+
+										<img
+											ngSrc="assets/img/tables/minus-sm.svg"
+											alt="plus"
+											width="24"
+											height="24"
+											*ngIf="
+												column.id === 'retry_process_response' && !item.short
+											"
+											class="table__table--body__row--cell__label--icon"
+											(click)="
+												rowExpand(i, column.id, column.is_editable, item)
+											"
+										/>
+										<label class="table__table--body__row--cell__label">
+											{{
+												column.is_editable
+													? item[column.id].value
+													: item[column.id]
+													? firstHundredChar(item[column.id], item.short)
+													: ""
+											}}
+										</label>
+
+										<img
+											ngSrc="assets/img/tables/pencil-xs.svg"
+											alt="pencil"
+											width="16"
+											height="16"
+											*ngIf="column.is_editable && !item[column.id].active"
+										/>
+									</span>
+
+									<span
+										[ngClass]="{ 'editable pointer': column.is_editable }"
+										class="table__table--body__row--cell__label"
+										*ngIf="column.id === 'role'"
+										(click)="editValue(i, column.id, column.is_editable)"
+										>{{ item[column.id].name }}</span
+									>
+
+									<!--              Show input if it's active the edit-->
+									<ng-container *ngIf="column.is_editable">
+										<div
+											class="table__table--body__row--cell__edit"
+											*ngIf="item[column.id].active"
+										>
+											<input
+												type="text"
+												class="table__table--body__row--cell__edit--input"
+												[(ngModel)]="item[column.id].value"
+												[id]="column.id + '_' + i.toString()"
+												(focus)="focus()"
+												(blur)="editableFieldBlur($event, i, column.id)"
+												(keyup.enter)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											/>
+											<img
+												ngSrc="assets/img/tables/check.svg"
+												alt="check"
+												class="table__table--body__row--cell__edit--accept pointer"
+												width="24"
+												height="24"
+												tabindex="0"
+												(click)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											/>
+										</div>
+									</ng-container>
+								</ng-container>
+
+								<!--            Enum / Select-->
+								<ng-container *ngIf="column.type === 'enum'">
+									<!--              Show the value if it isn't active the edit-->
+									<span
+										[ngClass]="{ 'editable pointer': column.is_editable }"
+										class="table__table--body__row--cell__label"
+										*ngIf="!item[column.id]?.active && column.id !== 'role'"
+										(click)="editValue(i, column.id, column.is_editable)"
+									>
+										{{
+											column.is_editable
+												? item[column.id].value
+												: item[column.id]
+										}}
+										<img
+											ngSrc="assets/img/tables/pencil-xs.svg"
+											alt="pencil"
+											width="16"
+											height="16"
+											*ngIf="column.is_editable && !item[column.id].active"
+										/>
+									</span>
+									<!--                Edit-->
+									<ng-container *ngIf="column.is_editable">
+										<span
+											[ngClass]="{ 'editable pointer': column.is_editable }"
+											class="table__table--body__row--cell__label"
+											*ngIf="!item[column.id].active && column.id !== 'role'"
+											(click)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+										>
+											{{ item[column.id].name }}
+										</span>
+										<span
+											[ngClass]="{ 'editable pointer': column.is_editable }"
+											class="table__table--body__row--cell__label"
+											*ngIf="!item[column.id].active && column.id === 'role'"
+											(click)="
+												changeRoleColumns(i, column.id, column.is_editable)
+											"
+										>
+											{{ item["role"].value["name"] }}
+
+											<img
+												ngSrc="assets/img/tables/pencil-xs.svg"
+												alt="pencil"
+												width="16"
+												height="16"
+												*ngIf="column.is_editable && !item[column.id].active"
+											/>
+										</span>
+									</ng-container>
+
+									<!--              Show select if the edit it's active -->
+									<ng-container
+										*ngIf="column.is_editable && column.id !== 'role'"
+									>
+										<div
+											class="table__table--body__row--cell__edit"
+											*ngIf="item[column.id].active"
+										>
+											<select
+												class="table__table--body__row--cell__edit--input"
+												[(ngModel)]="item[column.id].value"
+												[id]="column.id + '_' + i.toString()"
+												(focus)="focus()"
+												(blur)="editableFieldBlur($event, i, column.id)"
+												(keyup.enter)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											>
+												<option value="" disabled>--Select--</option>
+												<option
+													*ngFor="let option of column.values"
+													[value]="option.value"
+												>
+													{{ option.name }}
+												</option>
+											</select>
+											<!--                Check icon-->
+											<img
+												ngSrc="assets/img/tables/check.svg"
+												alt="check"
+												class="table__table--body__row--cell__edit--accept pointer"
+												width="24"
+												height="24"
+												tabindex="0"
+												(click)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											/>
+										</div>
+									</ng-container>
+
+									<ng-container
+										*ngIf="column.is_editable && column.id === 'role'"
+									>
+										<div
+											class="table__table--body__row--cell__edit"
+											*ngIf="item[column.id].active && ChangeRoleArray.length"
+										>
+											<select
+												class="table__table--body__row--cell__edit--input"
+												[(ngModel)]="item['role'].value.id"
+												[id]="column.id + '_' + i.toString()"
+												(focus)="focus()"
+												(blur)="editableFieldBlur($event, i, column.id)"
+												(keyup.enter)="
+													submitEdit(item.id, column.id, i, item['role'], item)
+												"
+											>
+												<option value="">--Select--</option>
+												<option
+													*ngFor="let role of ChangeRoleArray; let i = index"
+													[value]="role.id"
+												>
+													{{ role.name }}
+												</option>
+											</select>
+											<!--                Check icon-->
+											<img
+												ngSrc="assets/img/tables/check.svg"
+												alt="check"
+												class="table__table--body__row--cell__edit--accept pointer"
+												width="24"
+												height="24"
+												tabindex="0"
+												(click)="
+													submitEdit(item.id, column.id, i, item['role'], item)
+												"
+											/>
+										</div>
+									</ng-container>
+								</ng-container>
+
+								<!--            Date-->
+								<ng-container *ngIf="column.type === 'date'">
+									<ng-container *ngIf="item[column.id]">
+										<span
+											class="table__table--body__row--cell__label"
+											[ngClass]="{ 'editable pointer': column.is_editable }"
+											(click)="editValue(i, column.id, column.is_editable)"
+											*ngIf="!item[column.id]?.active"
+											>{{
+												column.is_editable
+													? item[column.id].value
+														? dateFormat(item[column.id].value.toString())
+														: ""
+													: item[column.id]
+													? dateFormat(item[column.id].toString())
+													: "--"
+											}}
+											<img
+												ngSrc="assets/img/tables/pencil-xs.svg"
+												alt="pencil"
+												width="16"
+												height="16"
+												*ngIf="column.is_editable && !item[column.id].active"
+											/>
+										</span>
+
+										<!--              Show select if it's active the edit-->
+										<div
+											class="table__table--body__row--cell__edit"
+											*ngIf="item[column.id].active"
+										>
+											<input
+												type="date"
+												class="table__table--body__row--cell__edit--input"
+												[(ngModel)]="item[column.id].value"
+												[id]="column.id + '_' + i.toString()"
+												(focus)="focus()"
+												(blur)="editableFieldBlur($event, i, column.id)"
+												(keyup.enter)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											/>
+											<!--                Check icon-->
+											<img
+												ngSrc="assets/img/tables/check.svg"
+												alt="check"
+												class="table__table--body__row--cell__edit--accept pointer"
+												width="24"
+												height="24"
+												tabindex="0"
+												(click)="
+													submitEdit(
+														item.id,
+														column.id,
+														i,
+														item[column.id].value,
+														item
+													)
+												"
+											/>
+										</div>
+									</ng-container>
+								</ng-container>
+
+								<!--            Date Time-->
+								<ng-container *ngIf="column.type === 'timestamp'">
+									<span class="table__table--body__row--cell__label">{{
+										item[column.id]
+											? dateTimeFormat(item[column.id].toString())
+											: "--"
+									}}</span>
+								</ng-container>
+
+								<!--            Number-->
+								<ng-container *ngIf="column.type === 'number'">
+									<span class="table__table--body__row--cell__label">{{
+										numberFormat(item[column.id] || "0")
+									}}</span>
+								</ng-container>
+
+								<!--            Boolean-->
+								<ng-container *ngIf="column.type === 'boolean'">
+									<sh-chips
+										[Label]="item[column.id] ? 'Yes' : 'No'"
+										*ngIf="!column.is_editable"
+									></sh-chips>
+
+									<!--                Toggle-->
+									<div
+										class="table__table--body__row--cell__toggle"
+										*ngIf="column.is_editable"
+									>
+										<sh-toggle
+											[active]="item[column.id].value"
+											[loading]="Toggle_Loading"
+											(action)="
+												toggleSwitch({
+													id: item.id,
+													column: column.id,
+													value: item[column.id].value
+												})
+											"
+										></sh-toggle>
+									</div>
+								</ng-container>
+
+								<!--            File-->
+								<ng-container *ngIf="column.type === 'file'">
+									<span class="table__table--body__row--cell__label">{{
+										item[column.id]
+									}}</span>
+								</ng-container>
+
+								<!--            URL-->
+								<ng-container *ngIf="column.type === 'url'">
+									<a
+										*ngIf="item[column.id]"
+										class="table__table--body__row--cell__label-url"
+										[href]="item[column.id]"
+										target="_blank"
+										>{{ column.name_pretty }}
+										<img
+											ngSrc="assets/img/tables/arrow-narrow-up.svg"
+											alt="arrow"
+											width="24"
+											height="24"
+											class="table__table--body__row--cell__label-arrow"
+										/>
+									</a>
+								</ng-container>
+
+								<!--            Action-->
+								<ng-container
+									*ngIf="column.type === 'action' && item[column.id]"
+								>
+									<sh-button
+										variant="outline"
+										(btnClick)="action(column, item.id)"
+										[loading]="
+											(Record_History_Loading &&
+											Record_History_Loading_Id === item['id'])
+										"
+										[disabled]="Action_Loading"
+										>{{ column.name_pretty }}
+									</sh-button>
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="item.row_loading">
+								<span
+									class="table__table--body__row--cell__label loading-label p-32-0"
+								>
+									<div class="table__table--body__row--cell__label--skeleton">
+										<div class="skeleton"></div>
+									</div>
+								</span>
+							</ng-container>
+						</td>
+					</tr>
+				</ng-container>
+			</tbody>
+		</table>
+
+		<!--        Loaded without data-->
+		<ng-container *ngIf="!Loading && !Content.length">
+			<div class="table__table--body__no-data">
+				<span class="table__table--body__no-data--label">
+					No data to display.
+				</span>
+			</div>
+		</ng-container>
+	</div>
+</div>
+<!--  Pagination-->
+<sh-pagination
+	*ngIf="Pagination && Total_Count_Number"
+	[p]="P"
+	[pp]="Pp"
+	[totalCount]="Total_Count_Number"
+	[Loader]="Pagination_Loading"
+	(Next)="nextPage()"
+	(Back)="backPage()"
+></sh-pagination>

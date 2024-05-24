@@ -1,0 +1,209 @@
+@import url("sh-cards-group-v2.component.styleguide.scss");
+
+.cards-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	padding: 20px;
+	position: relative;
+	background-color: var(--blackwhite);
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		align-self: stretch;
+		width: 100%;
+		position: relative;
+		flex: 0 0 auto;
+		flex-wrap: wrap;
+		overflow: scroll;
+
+		&__left-frame {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			position: relative;
+			flex: 0 0 auto;
+
+			&__featured-icon {
+				display: flex;
+				width: 48px;
+				height: 48px;
+				align-items: center;
+				justify-content: center;
+				gap: 7.5px;
+				padding: 6px;
+				position: relative;
+				background-color: var(--status-colorgreen-bg);
+				border-radius: 33px;
+
+				&--icon-outline {
+					position: relative;
+					width: 60px;
+					height: 60px;
+				}
+			}
+
+			&__text-frame {
+				display: inline-flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+				position: relative;
+				flex: 0 0 auto;
+
+				&__text-wrapper {
+					position: relative;
+					width: fit-content;
+					margin-top: -1px;
+					font-family: var(--header-h4-inter-bold-24px-font-family);
+					font-weight: var(--header-h4-inter-bold-24px-font-weight);
+					color: var(--primary-violetviolet-02-main);
+					font-size: var(--header-h4-inter-bold-24px-font-size);
+					letter-spacing: var(--header-h4-inter-bold-24px-letter-spacing);
+					line-height: var(--header-h4-inter-bold-24px-line-height);
+					white-space: nowrap;
+					font-style: var(--header-h4-inter-bold-24px-font-style);
+				}
+
+				&__text-wrapper-2 {
+					position: relative;
+					width: fit-content;
+					font-family: var(--header-h6-inter-semibold-18px-font-family);
+					font-weight: var(--header-h6-inter-semibold-18px-font-weight);
+					color: var(--primary-violetviolet-02-main);
+					font-size: var(--header-h6-inter-semibold-18px-font-size);
+					letter-spacing: var(--header-h6-inter-semibold-18px-letter-spacing);
+					line-height: var(--header-h6-inter-semibold-18px-line-height);
+					white-space: nowrap;
+					font-style: var(--header-h6-inter-semibold-18px-font-style);
+				}
+			}
+		}
+
+		&--skeleton {
+			width: 100%;
+			height: 0px;
+			box-shadow: 0 0 50px 50px rgba(255, 255, 255, 1);
+			animation: skeleton 2s linear infinite;
+			opacity: 0;
+			overflow: hidden;
+		}
+
+		&--skeleton-2 {
+			width: 100%;
+			height: 0px;
+			box-shadow: 0 0 50px 50px rgba(255, 255, 255, 1);
+			animation: skeleton2 2s linear infinite;
+			opacity: 0;
+			overflow: hidden;
+		}
+
+		&__right-frame {
+			display: inline-flex;
+			align-items: flex-end;
+			gap: 16px;
+			position: relative;
+			align-self: stretch;
+			flex: 0 0 auto;
+			overflow: hidden;
+
+			&__device-frame {
+				display: inline-flex;
+				align-items: center;
+				gap: 4px;
+				position: relative;
+				flex: 0 0 auto;
+
+				&__icon {
+					position: relative;
+					width: 20px;
+					height: 20px;
+				}
+
+				&__name {
+					margin-top: -1px;
+					font-family: var(--body-menu-inter-bold-14px-font-family);
+					font-weight: var(--body-menu-inter-bold-14px-font-weight);
+					color: var(--primary-violetviolet-03);
+					font-size: var(--body-menu-inter-bold-14px-font-size);
+					line-height: var(--body-menu-inter-bold-14px-line-height);
+					position: relative;
+					width: fit-content;
+					letter-spacing: var(--body-menu-inter-bold-14px-letter-spacing);
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 1;
+					-webkit-box-orient: vertical;
+					font-style: var(--body-menu-inter-bold-14px-font-style);
+				}
+			}
+
+			&:hover {
+				.reload {
+					transition: opacity 0.25s;
+					opacity: 1;
+
+					&:hover {
+						rotate: 180deg;
+						transition: all 300ms;
+					}
+				}
+			}
+		}
+	}
+
+	&--skeleton-i {
+		margin-bottom: 3px;
+		width: 120px;
+		height: 24px;
+		border-radius: 4px;
+		background-color: #e0e0e0;
+		overflow: hidden;
+	}
+
+	&__group-cards {
+		display: flex;
+		align-items: flex-start;
+		gap: 20px;
+		position: relative;
+		align-self: stretch;
+		width: 100%;
+		flex: 0 0 auto;
+		overflow: auto;
+
+		&__cards{
+			display: flex;
+			width: 100%;
+		}
+
+	}
+}
+
+@keyframes skeleton {
+	0% {
+		transform: translate(0%);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translate(100%);
+		opacity: 0.8;
+	}
+}
+
+@keyframes skeleton2 {
+	0% {
+		transform: translate(0%);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translate(100%);
+		opacity: 0.8;
+	}
+}

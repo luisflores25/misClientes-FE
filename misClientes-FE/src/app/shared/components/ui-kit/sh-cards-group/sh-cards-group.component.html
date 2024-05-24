@@ -1,0 +1,51 @@
+<div class="sh-cards">
+	<div class="sh-cards__group">
+		<div class="sh-cards__group--header">
+			<h3 class="sh-cards__group--header__title" *ngIf="!Loading">
+				{{ Title }}
+			</h3>
+			<div class="sh-cards__group--header__title--skeleton" *ngIf="Loading">
+				<div class="skeleton"></div>
+			</div>
+
+			<img
+				class="sh-cards__group--header__reload pointer"
+				id="reload"
+				ngSrc="assets/img/tables/refresh-icn.svg"
+				width="16"
+				height="17"
+				alt="refresh"
+				(click)="refresh()"
+			/>
+		</div>
+		<div class="sh-cards__group--cards">
+			<ng-container *ngIf="!Loading">
+				<div *ngFor="let card of Cards" class="sh-cards__group--cards__card">
+					<div class="cards-container">
+						<img
+							[src]="card.icon"
+							alt="icon"
+							class="sh-cards__group--cards__card--icon"
+						/>
+						<div class="p10">
+							<h5 class="sh-cards__group--cards__card--title">
+								{{ card.title }}
+							</h5>
+							<span class="sh-cards__group--cards__card--value">{{
+								card.value
+							}}</span>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="Loading">
+				<div
+					*ngFor="let c of [1, 2, 3, 4, 5, 6]"
+					class="sh-cards__group--cards__card--skeleton"
+				>
+					<div class="skeleton-2"></div>
+				</div>
+			</ng-container>
+		</div>
+	</div>
+</div>

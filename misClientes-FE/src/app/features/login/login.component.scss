@@ -1,0 +1,145 @@
+.body {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  &__container {
+    &--left-content {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      &__general-container {
+        width: 80%;
+        .title{
+          font-weight: 700;
+          font-size: 32px;
+          line-height: 38px;
+          margin-bottom: 0;
+        }
+        .paragraph{
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 22px;
+          display: flex;
+          align-items: center;
+          color: #646470;
+        }
+        p {
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+        }
+        &--error-box-container {
+          width: 367px;
+          height: 54px;
+          background: #ffe0e3;
+          border: 1px solid #ffd1d5;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .form-component{
+          flex-direction: column;
+          justify-content: center;
+          width: 100%;
+          margin-right: 0 !important;
+        }
+        .form-component-first{
+          margin-top: 2rem;
+        }
+        mt-5{
+          margin-top: 5px;
+        }
+        .input {
+          width: 100%;
+        }
+        .hidden {
+          transition: opacity 500ms;
+          opacity: 0;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: #f45050;
+          margin-top: 5px;
+        }
+        .container-2{
+          display: flex;
+          align-items: center;
+          width: 100%;
+          justify-content: space-between;
+          .container-2-content{
+            display: flex;
+            .remember-me{
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 20px;
+              color: #3c3c43;
+              display: flex;
+              .remember-me-txt{
+                transition: all 500ms;
+                opacity: 1;
+              }
+            }
+          }
+          .forgot{
+            color: #ed8d94;
+            text-decoration: none;
+            // font-family: serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
+        .button-container{
+          margin: 1rem 0;
+          .next-prev-btn{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  &__background-image-container{
+    // ../../../
+    background-image: url("../../../assets/img/login/GM-BG.jpg");
+    background-repeat: no-repeat;
+  background-size: cover;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &--cards-login{
+      display: none;
+      &__cards-login-icon-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 112px;
+      }
+      &cards-login-container{
+        width: 500px;
+        .cards-login-title {
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 24px;
+          color: #515192;
+          margin-top: 24px;
+        }
+
+        .cards-login-txt {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          color: #92929b;
+        }
+      }
+    }
+  }
+}

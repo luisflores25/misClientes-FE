@@ -1,0 +1,129 @@
+<div class="container">
+  <no-access-component *ngIf="!access()"> </no-access-component>
+  <div *ngIf="access()">
+    
+  </div>
+
+  <sh-table-layout *ngIf="access()" [Title]="title">
+    <sh-button
+      button
+      type="filled"
+      class="container__button"
+      (btnClick)="closeModal()"
+    >
+      Crear presupuesto
+    </sh-button>
+    <sh-table
+      table
+      [Title]="table_title()"
+      [Total_Count]="table_total_count()"
+      [Total_Count_Number]="table_total_count_number()"
+      [Filter]="{ active: true, options: {} }"
+      [Loading]="table_loading()"
+      [Columns]="ViajesManagementColumns.Columns"
+      [Content]="table_data()"
+      [P]="table_p()"
+      [Pp]="table_pp()"
+      [ChangeRoleArray]="table_change_role_data()"
+      [Toggle_Loading]="toggle_loading()"
+      [Action_Loading]="false"
+      [Pagination_Loading]="false"
+      (Next)="nextPage()"
+      (Back)="backPage()"
+    ></sh-table>
+  </sh-table-layout>
+
+  <sh-modal
+    [Show]="modal_opened()"
+    (Close)="closeModal()"
+    [Loader]="Loading()"
+    (Submit)="crearPresupuesto(form)"
+  >
+    <div class="modal-header" title>
+      <span>Crear Presupuesto</span>
+    </div>
+
+    <div class="modal-content" middle>
+      <!--    Content-->
+      <form class="modal__form" #form="ngForm">
+        <div>
+          <label class="modal__form--label"> Tipo de Viaje </label>
+          <div class="modal__form--input">
+            <input
+              type="text"
+              name="tipo_viaje"
+              placeholder="Escribe una dirección o redondo"
+              ngModel
+              [autocomplete]="false"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="modal__form--label"> Ruta ida </label>
+          <div class="modal__form--input">
+            <select
+              type="select"
+              name="id_ruta_ida"
+              ngModel
+              (ngModelChange)="rutaResumen($event)"
+            >
+              <option value="" selected>--Select--</option>
+              <option [value]="option.id" *ngFor="let option of rutas()">
+                {{ option.nombre_ruta }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="modal__form--label"> Ruta regreso </label>
+          <div class="modal__form--input">
+            <select
+              type="select"
+              name="id_ruta_regreso"
+              ngModel
+              (ngModelChange)="rutaResumen($event)"
+            >
+              <option value="" selected>--Select--</option>
+              <option [value]="option.id" *ngFor="let option of rutas()">
+                {{ option.nombre_ruta }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="modal__form--label"> Fecha partida </label>
+          <div class="modal__form--input">
+            <input type="date" name="fecha_ida" ngModel />
+          </div>
+        </div>
+        <div>
+          <label class="modal__form--label"> Fecha regreso </label>
+          <div class="modal__form--input">
+            <input type="date" name="fecha_regreso" ngModel />
+          </div>
+        </div>
+        <div>
+          <label class="modal__form--label"> Unidad de transporte </label>
+          <div class="modal__form--input">
+            <select type="select" name="id_unidad" ngModel>
+              <option value="" selected>--Select--</option>
+              <option [value]="option.id" *ngFor="let option of unidades()">
+                {{ option.nombre_unidad }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="modal__form--label"> Número de pasajeros </label>
+          <div class="modal__form--input">
+            <input type="number" name="num_pasajeros" ngModel />
+          </div>
+        </div>
+      </form>
+    </div>
+  </sh-modal>
+  <sh-success-message [success_msg]="show_msg()" [error_msg]="error_msg()">{{
+    msg()
+  }}</sh-success-message>
+</div>

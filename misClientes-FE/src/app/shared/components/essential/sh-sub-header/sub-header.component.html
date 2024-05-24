@@ -1,0 +1,65 @@
+<div class="header-container">
+	<div class="title">
+		<sh-title class="title">
+			<a class="pointer" *ngIf="Back_Btn" (click)="back()">
+				<img
+					ngSrc="assets/img/sub-header/chevron-left.svg"
+					alt="left"
+					width="24"
+					height="24"
+				/>
+			</a>
+			<ng-content></ng-content>
+		</sh-title>
+	</div>
+
+	<div class="btn-container">
+		<div
+			*ngFor="let button of CustomizeButtonsList"
+			[class]="
+				button.type == 'outlined' ? 'cancel-btn pointer' : 'next-btn pointer'
+			"
+			(click)="customizeButtonsList(button.index)"
+			[ngStyle]="{ display: button.disabled ? 'none' : 'flex' }"
+		>
+			<p [class]="button.type == 'outlined' ? 'cancel-txt' : 'next-txt'">
+				{{ button.title }}
+			</p>
+		</div>
+		<!-- Refresh Button -->
+		<div
+			*ngIf="Refresh_Button"
+			class="refresh-button pointer"
+			(click)="refresh()"
+		>
+			<img
+				ngSrc="assets/img/sub-header/refresh.svg"
+				alt="refresh"
+				width="24"
+				height="24"
+			/>
+		</div>
+
+		<div *ngIf="Next_Button" class="align-center" (click)="next()">
+			<sh-button [disabled]="Next_Button_Disabled" type="submit"
+				>Finish
+			</sh-button>
+		</div>
+
+		<!-- New Component -->
+		<a *ngIf="New_Component_Button" class="scan-btn pointer" (click)="create()">
+			<div class="new-btn-container">
+				<img
+					ngSrc="assets/img/sub-header/plus-sm.svg"
+					class="scan-icn"
+					alt="plus-icon"
+					width="24"
+					height="24"
+				/>
+				<p class="scan-txt">
+					<ng-content select="[new]"></ng-content>
+				</p>
+			</div>
+		</a>
+	</div>
+</div>

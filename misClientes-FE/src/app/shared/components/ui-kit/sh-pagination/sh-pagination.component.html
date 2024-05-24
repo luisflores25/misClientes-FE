@@ -1,0 +1,41 @@
+<!-- Pagination -->
+<div class="pagination-container">
+	<div class="show_items" *ngIf="!Loader">
+		<h3 class="pagination_pages show_items_text">Showing {{ pp }} records</h3>
+	</div>
+	<div class="pagination" *ngIf="!Loader">
+		<a
+			class="pagination-btn"
+			[ngStyle]="{ opacity: +p === 1 ? '0.2' : '1' }"
+			(click)="backPage()"
+		>
+			<img
+				ngSrc="assets/img/pagination/icon_down.svg"
+				class="arrow_left"
+				alt="chevron"
+				width="12"
+				height="7"
+			/>
+		</a>
+		<div>
+			<h3 class="pagination_pages">{{ p }} of {{ num_pages }}</h3>
+		</div>
+		<a
+			class="pagination-btn"
+			[ngStyle]="{ opacity: +p === num_pages || +pp <= 1 ? '0.2' : '1' }"
+			(click)="nextPage()"
+		>
+			<img
+				ngSrc="assets/img/pagination/icon_down.svg"
+				class="arrow_right"
+				alt="chevron"
+				width="12"
+				height="7"
+			/>
+		</a>
+	</div>
+
+	<div class="pagination-skeleton" *ngIf="Loader">
+		<div class="skeleton"></div>
+	</div>
+</div>

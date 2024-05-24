@@ -1,0 +1,21 @@
+<div class="router-content" [ngClass]="{ 'side-bar-expanded': sidebar_open() }">
+	<div class="content">
+		<!--    Tabs Cards-->
+		<div class="layout">
+			<div class="w-100">
+			<ng-content select="[button]"></ng-content>
+			</div>
+
+			<div class="w-100" *ngIf="Type === 1">
+				<ng-content select="[cards]"></ng-content>
+			</div>
+			<!--  Cards-->
+			<ng-content select="[simple_cards]"></ng-content>
+
+			<!--  Table-->
+			<div class="layout__table">
+				<ng-content select="[table]"></ng-content>
+			</div>
+		</div>
+	</div>
+</div>

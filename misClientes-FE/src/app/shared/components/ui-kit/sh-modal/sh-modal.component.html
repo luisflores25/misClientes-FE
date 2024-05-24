@@ -1,0 +1,44 @@
+<div class="body-page" *ngIf="Show">
+	<!-- Modal -->
+	<div class="modal">
+		<!-- onOff is animation that has when modal open or close -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-header-txt">
+					<ng-content select="[title]"></ng-content>
+				</p>
+			</div>
+
+			<div class="modal-content-middle">
+				<div class="modal-middle-content">
+					<ng-content select="[middle]"></ng-content>
+				</div>
+			</div>
+
+			<!-- Buttons container -->
+			<div class="buttons-container">
+				<div class="buttons">
+					<!-- Cancel Button -->
+					<sh-button
+						*ngIf="Cancel_Btn"
+						[text]="'Cancel'"
+						[size]="'sm'"
+						[variant]="'outline'"
+						(btnClick)="close()"
+					></sh-button>
+					<!-- Submit Button -->
+					<sh-button
+						class="pl-12"
+						[text]="Loader ? '' : 'Done'"
+						[size]="'sm'"
+						[variant]="'filled'"
+						[disabled]="Loader"
+						(click)="submit()"
+					>
+						<div class="filter-icon loader" *ngIf="Loader"></div>
+					</sh-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

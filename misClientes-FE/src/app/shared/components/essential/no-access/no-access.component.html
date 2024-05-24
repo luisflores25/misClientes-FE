@@ -1,0 +1,33 @@
+<div class="no-access">
+	<img
+		ngSrc="assets/img/no-access/lock.png"
+		class="lock-icn"
+		alt="lock"
+		width="737"
+		height="717"
+	/>
+	<h1 class="access-denied">Access Denied</h1>
+	<p class="access-denied-msg" *ngIf="!Custom_Msg">
+		You don't have permissions to access this page. <br />
+		Contact an administrator to get permissions or go back to Dashboard<br />
+		and browse other pages
+	</p>
+
+	<p class="access-denied-msg" *ngIf="Custom_Msg">{{ Custom_Msg }}</p>
+
+	<div
+		class="go-dashboard-btn pointer"
+		(click)="navigate('/layout')"
+		*ngIf="!Custom_Btn"
+	>
+		<p class="go-dashboard-txt">Go to Dashboard</p>
+	</div>
+
+	<div
+		class="go-dashboard-btn pointer"
+		(click)="navigate(Custom_Btn.url)"
+		*ngIf="Custom_Btn"
+	>
+		<p class="go-dashboard-txt">{{ Custom_Btn.btn_label }}</p>
+	</div>
+</div>

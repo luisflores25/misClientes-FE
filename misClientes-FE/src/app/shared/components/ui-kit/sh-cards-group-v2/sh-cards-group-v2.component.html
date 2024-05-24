@@ -1,0 +1,98 @@
+<div class="cards-group">
+	<div
+		class="cards-group__header"
+		[ngClass]="{ 'cards-group--skeleton-i': this.Loading }"
+	>
+		<div *ngIf="Loading" class="cards-group__header--skeleton"></div>
+		<ng-container *ngIf="!Loading">
+			<div class="cards-group__header__left-frame">
+				<div class="cards-group__header__left-frame__featured-icon">
+					<img
+						class="cards-group__header__left-frame__featured-icon--icon-outline"
+						src="assets/img/cards/green-icon.svg"
+					/>
+				</div>
+				<div class="cards-group__header__left-frame__text-frame">
+					<div
+						class="cards-group__header__left-frame__text-frame__text-wrapper"
+					>
+						Enrollment Stats
+					</div>
+					<div
+						class="cards-group__header__left-frame__text-frame__text-wrapper-2"
+					>
+						Sales
+					</div>
+				</div>
+			</div>
+			<div
+				class="cards-group__header__right-frame"
+				[ngClass]="{ 'cards-group__header--skeleton': this.Loading }"
+			>
+				<div class="cards-group__header__right-frame__device-frame">
+					<img
+						class="cards-group__header__right-frame__device-frame__icon"
+						src="assets/img/cards/cards-v2/small_mobile_1x.webp"
+					/>
+					<div class="cards-group__header__right-frame__device-frame__name">
+						Tablets
+					</div>
+				</div>
+				<div class="cards-group__header__right-frame__device-frame">
+					<img
+						class="cards-group__header__right-frame__device-frame__icon"
+						src="assets/img/cards/cards-v2/small_sim_1x.webp"
+					/>
+					<div class="cards-group__header__right-frame__device-frame__name">
+						SIM
+					</div>
+				</div>
+				<div class="cards-group__header__right-frame__device-frame">
+					<img
+						class="cards-group__header__right-frame__device-frame__icon"
+						src="assets/img/cards/cards-v2/device-mobile.svg"
+					/>
+					<div class="cards-group__header__right-frame__device-frame__name">
+						Phone
+					</div>
+				</div>
+				<div class="cards-group__header__right-frame__device-frame">
+					<img
+						class="cards-group__header__right-frame__device-frame__icon pointer reload"
+						src="assets/img/tables/refresh-icn.svg"
+						alt="refresh"
+						(click)="refresh()"
+					/>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+	<div
+		class="cards-group__group-cards"
+		[ngClass]="{ 'cards-group--skeleton-i': this.Loading }"
+	>
+		<div *ngIf="Loading" class="cards-group__header--skeleton-2"></div>
+		<ng-container *ngIf="!Loading">
+			<ng-container *ngFor="let cardKey of CardsKeys">
+				<ng-container *ngIf="Cards[cardKey]">
+					<sh-card-v2
+						class="cards-group__group-cards__cards"
+						[TabletCounter]="Cards[cardKey]!.tablet"
+						[FreePhoneCounter]="Cards[cardKey]!.free_phone"
+						[SimCounter]="Cards[cardKey]!.sim"
+						[TabletAdvantagePlanCounter]="Cards[cardKey]!.tablet_advantage_plan"
+						[ShowTablet]="Cards[cardKey]!.tablet != undefined"
+						[ShowTabletAdvantagePlan]="
+							Cards[cardKey]!.tablet_advantage_plan != undefined
+						"
+						[ShowFreePhone]="Cards[cardKey]!.free_phone != undefined"
+						[ShowSim]="Cards[cardKey]!.sim != undefined"
+						[Title]="getTitle(cardKey)"
+						[ShowIcon]="showIcon(cardKey)"
+						[IconImage]="getIconImage(cardKey)"
+					/>
+				</ng-container>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>

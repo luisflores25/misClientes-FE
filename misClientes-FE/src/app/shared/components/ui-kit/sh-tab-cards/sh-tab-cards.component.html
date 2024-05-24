@@ -1,0 +1,120 @@
+<div class="dynamic-cards">
+<div class="dynamic-cards">
+	<!--  Tabs-->
+	<div class="dynamic-cards__tabs" *ngIf="Tabs.show && !Loading">
+		<div
+			(click)="selectTab(i, tab.name)"
+			*ngFor="let tab of tabs().tabs; let i = index"
+			class="dynamic-cards__tabs--single-tab pointer"
+			[ngClass]="{ 'dynamic-cards__tabs--single-tab__active': tab.active }"
+		>
+			<span class="dynamic-cards__tabs--single-tab__label">{{
+				tab.label
+			}}</span>
+		</div>
+	</div>
+
+	<!--  💀💀💀 Tabs Skeleton 💀💀💀-->
+	<div class="dynamic-cards__tabs" *ngIf="Tabs.show && Loading">
+		<div *ngFor="let tab of [1, 2, 3]" class="dynamic-cards__tabs--single-tab">
+			<div class="dynamic-cards__tabs--single-tab__skeleton-container">
+				<div
+					class="dynamic-cards__tabs--single-tab__skeleton-container--skeleton"
+				>
+					<div class="skeleton"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  Cards-->
+	<div class="dynamic-cards__cards">
+		<div
+			class="dynamic-cards__cards--container"
+			[ngStyle]="{
+				'grid-template-columns': 'repeat(' + Cards.length + ',1fr)'
+			}"
+		>
+			<div
+				*ngFor="let card of !Loading ? Cards : skeleton"
+				class="dynamic-cards__cards--container__card"
+			>
+				<div class="dynamic-cards__cards--container__card--main">
+					<div class="dynamic-cards__cards--container__card--main__values">
+						<span
+							*ngIf="!Loading"
+							class="dynamic-cards__cards--container__card--main__values--label"
+						>
+							{{ card.main.label }}
+						</span>
+
+						<!--  💀💀💀 Main Label Skeleton 💀💀💀-->
+						<div
+							*ngIf="Loading"
+							class="dynamic-cards__cards--container__card--main__values--label-skeleton"
+						>
+							<div class="skeleton"></div>
+						</div>
+						<h5
+							*ngIf="!Loading"
+							class="dynamic-cards__cards--container__card--main__values--amount"
+						>
+							{{ card.main.amount }}
+						</h5>
+						<!--  💀💀💀 Main Amount Skeleton 💀💀💀-->
+						<div
+							*ngIf="Loading"
+							class="dynamic-cards__cards--container__card--main__values--amount-skeleton"
+						>
+							<div class="skeleton"></div>
+						</div>
+					</div>
+
+					<img
+						*ngIf="!Loading"
+						[ngSrc]="card.icon"
+						alt="icon"
+						width="64"
+						height="64"
+					/>
+					<div
+						*ngIf="Loading"
+						class="dynamic-cards__cards--container__card--main__values--icon-skeleton"
+					>
+						<div class="skeleton"></div>
+					</div>
+				</div>
+
+				<div class="dynamic-cards__cards--container__card--secondary">
+					<span
+						class="dynamic-cards__cards--container__card--secondary__label"
+						*ngIf="!Loading"
+					>
+						{{ card.secondary.label }}
+					</span>
+					<!--  💀💀💀 Secondary Label Skeleton 💀💀💀-->
+					<div
+						*ngIf="Loading"
+						class="dynamic-cards__cards--container__card--secondary__skeleton-label"
+					>
+						<div class="skeleton"></div>
+					</div>
+
+					<span
+						class="dynamic-cards__cards--container__card--secondary__amount"
+						*ngIf="!Loading"
+					>
+						{{ card.secondary.amount }}
+					</span>
+					<!--  💀💀💀 Secondary Amount Skeleton 💀💀💀-->
+					<div
+						*ngIf="Loading"
+						class="dynamic-cards__cards--container__card--secondary__skeleton-amount"
+					>
+						<div class="skeleton"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,98 @@
+<div
+	[ngClass]="{ opacity: modal_opened(), 'no-opacity': !modal_opened() }"
+	(click)="closeSidebar()"
+>
+	<div class="top-bar" [ngClass]="{ toggle_active: sidebar_expanded == true }">
+		<div
+			class="menu-container"
+			*ngIf="getScreenWidth <= 500"
+			(click)="show_toggle_menu()"
+		>
+			<div class="hamburger-menu">
+				<div id="nav-icon3" [ngClass]="{ open: menu_open() }">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+		<div class="logo-container" *ngIf="getScreenWidth <= 500">
+			<img
+				ngSrc="assets/img/sidebar/logo2.svg"
+				width="135"
+				height="37"
+				alt="logo"
+				class="logo2 pointer"
+				routerLink="/layout/online-enrollments"
+			/>
+		</div>
+		<div class="options" *ngIf="getScreenWidth > 500"></div>
+		<div class="account">
+			<a class="user" (click)="openOptions()">
+				<p *ngIf="initial_letter">{{ initial_letter }}</p>
+				<p *ngIf="!initial_letter">-</p>
+			</a>
+			<a class="username" (click)="openOptions()">
+				<p *ngIf="user_data" class="user_name">
+					{{ user_data.user_full_name }}
+				</p>
+				<p *ngIf="!user_data" class="user_name">--</p>
+				<img
+					ngSrc="assets/img/header/icon_down.svg"
+					class="down"
+					alt="icon_down"
+					width="12"
+					height="7"
+				/>
+			</a>
+
+			<!-- Actions-->
+			<div *ngIf="options()" class="profile-options">
+				<div class="user_info">
+					<img
+						[ngSrc]="profile_picture"
+						alt="profile"
+						height="61"
+						width="61"
+						class="profile_img"
+						*ngIf="profile_picture"
+					/>
+
+					<a class="user-no-photo" *ngIf="!profile_picture">
+						<p *ngIf="initial_letter">{{ initial_letter }}</p>
+						<p *ngIf="!initial_letter">-</p>
+					</a>
+					<div class="username_office">
+						<p class="username">
+							{{ user_data.user_full_name }}
+						</p>
+						<p class="office">
+							<label
+								*ngIf="user_data.user_email_address"
+								class="office user_type"
+							>
+								{{ user_data.user_email_address }}</label
+							>
+						</p>
+					</div>
+				</div>
+				<div class="options_logout">
+					<a class="option" (click)="changePassword()"
+						><p>Change Password</p></a
+					>
+					<div class="logout">
+						<img
+							ngSrc="assets/img/header/logout.svg"
+							class="logout_icn"
+							alt="logout"
+							width="24"
+							height="24"
+						/>
+						<a class="option" (click)="logOut()"><p>Log Out</p></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

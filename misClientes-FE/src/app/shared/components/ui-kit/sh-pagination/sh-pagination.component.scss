@@ -1,0 +1,82 @@
+.pagination-container {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: 0.2em;
+	height: 35px;
+
+	.pagination_pages {
+		font-family: "Inter";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 20px;
+		color: #92929b;
+	}
+
+	.pagination {
+		display: flex;
+		align-items: center;
+
+		.pagination-btn {
+			display: flex;
+			cursor: pointer;
+			padding: 0px 0.5rem;
+			align-items: center;
+
+			.arrow_left {
+				rotate: 90deg;
+			}
+
+			.arrow_right {
+				rotate: -90deg;
+			}
+		}
+	}
+
+	.pagination-skeleton {
+		width: 200px;
+		height: 35px;
+		background-color: #e0e0e0;
+		border-radius: 4px;
+		margin: 0.2em;
+		overflow: hidden;
+
+		.skeleton {
+			width: 0;
+			height: 50px;
+			box-shadow: 0 0 40px 40px rgba(255, 255, 255, 1);
+			animation: skeleton4 1s linear infinite;
+			opacity: 0;
+		}
+	}
+
+	.show_items {
+		display: flex;
+		align-items: center;
+
+		.show_items_text {
+			padding: 0px 10px;
+		}
+	}
+}
+
+@keyframes skeleton4 {
+	0% {
+		transform: translate(-50px);
+		opacity: 0;
+	}
+
+	20% {
+		opacity: 0;
+	}
+
+	50% {
+		transform: translate(0px);
+		opacity: 0.5;
+	}
+
+	100% {
+		transform: translate(250px);
+		opacity: 0.8;
+	}
+}

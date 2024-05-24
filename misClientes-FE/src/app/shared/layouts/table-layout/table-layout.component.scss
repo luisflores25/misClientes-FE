@@ -1,0 +1,50 @@
+.layout {
+	width: 100%;
+
+	&__cards {
+		display: grid;
+		width: 100%;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 140px);
+		gap: 20px;
+	}
+
+	&__table {
+		margin-top: 20px;
+		display: grid;
+		grid-template-columns: 1fr;
+		padding-bottom: 5rem;
+		width: inherit;
+	}
+}
+
+.router-content {
+	display: flex;
+	justify-content: center;
+	position: fixed;
+	transition: 750ms;
+	left: 74px;
+	top: 60px;
+	width: calc(100% - 74px);
+	height: calc(100vh - 60px);
+	overflow-y: scroll;
+
+	.content {
+		width: 95%;
+	}
+}
+
+.side-bar-expanded {
+	transition: 500ms;
+	left: 242px;
+	width: calc(100% - 242px);
+}
+
+.w-100 {
+	margin-top: 8px;
+	width: 100%;
+}
+
+.mi {
+	margin-inline: 20px;
+}
